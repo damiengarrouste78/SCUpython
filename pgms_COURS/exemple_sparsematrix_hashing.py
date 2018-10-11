@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Sep 12 15:19:42 2016
-
-@author: DGA
+@author: DGR
 """
 
 from sklearn.feature_extraction import FeatureHasher
