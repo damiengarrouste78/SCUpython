@@ -10,7 +10,8 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import ElasticNet
 from sklearn.ensemble import RandomForestClassifier
-#from module_lift import lift,plot_confusion_matrix,spec_sens,auc_et_roc
+from fonctions_metrics import lift,CAP_table
+
 from sklearn.metrics import classification_report,confusion_matrix,accuracy_score,f1_score,roc_auc_score,roc_curve,auc
 
 from sklearn.model_selection import GridSearchCV
@@ -24,7 +25,7 @@ import matplotlib.pyplot as plt
 #### on cherche par CV le meilleur C (1/alpha) le coef de regularisation
 
 param = [{"C":(0.001,0.01,0.1,1,10,100,1000)}]
-logitnow = GridSearchCV (LogisticRegression(penalty = "l1"), param, cv = 4,n_jobs=-1,scoring='roc_auc')
+logitnow = GridSearchCV (LogisticRegression(penalty = "l1"), param, cv = 4,n_jobs=1,scoring='roc_auc')
 #logit = GridSearchCV (LogisticRegression(penalty = "l1",class_weight='auto'), param, cv = 4,n_jobs=4,scoring='f1')
 Grid_lasso = logitnow.fit(X_train,y_train)
 # CV = 4 , validation croisée en scindant l'app en 4 (folds)
@@ -72,7 +73,10 @@ lift(probas_test,X_test,y_test)
 #compute lift at 5%
 lift(probas_train,X_train,y_train,p=5)
 lift(probas_test,X_test,y_test,p=5)
+
+CAP_table(pd.Series(y_test),pd.Series(probas_test),5,8)
 # 5.9
+t = pd.concat([pd.Series(y_test), pd.Series(probas_test)], axis = 1).reset_index()[[1,2]]
 
 # métriques (liste de dictionnaires)
 metriques = [{'model':model,'AUC_test':round(roc_auc_score(y_test,probas_test),2),'lift at 5':lift(probas_test,X_test,y_test,p=5),'lift at 10':lift(probas_test,X_test,y_test,p=10)}]
@@ -103,7 +107,9 @@ plt.plot(calcul_lift['customers'], calcul_lift['lift'], label = model, lw=2)
 # on recupere dans des array les compostantes de la courbe roc le fpr et le tpr par threshold
 fpr, tpr, thresholds = roc_curve(y_test, probas_test)
 roc_auc = auc(fpr, tpr) # calcul AUC
-plt.plot(fpr, tpr, lw=1, label='ROC fold %d (AUC = %0.2f)' % (roc_auc))
+plt.figure()
+
+plt.plot(fpr, tpr, lw=1, label='ROC fold (AUC = %0.2f)' % roc_auc)
 
 plt.figure()
 lw = 2
