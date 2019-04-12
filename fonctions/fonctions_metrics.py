@@ -13,7 +13,7 @@ def lift(proba,X,reponse,p=10):
     #p = 10
     sorted_proba = np.array(list(reversed(np.argsort(proba))))
     positives = sum(reponse)
-    tp = sum(np.array(reponse)[sorted_proba[:int(round((p*X_train.shape[0])/100,0))]])
+    tp = sum(np.array(reponse)[sorted_proba[:int(round((p*X.shape[0])/100,0))]])
     lift = round(100*tp/(float(positives)*p),2)
     print("lift at " '{} percent : {}'.format(p,lift))
     return lift
