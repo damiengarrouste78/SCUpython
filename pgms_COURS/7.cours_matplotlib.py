@@ -25,3 +25,14 @@ plt.show()
 # Troisième Représentation - graphique nuage de points par catégories
 import seaborn as sns
 sns.pairplot(x_vars='petalLength', y_vars='petalWidth', data=iris, hue="species", size=5)
+
+# nouvelle figure
+plt.figure()
+sns.boxplot(x='petalLength',data=iris)
+fig=plt.figure()
+sns.boxplot(x='petalLength',y='species',data=iris)
+fig=plt.figure()
+sns.kdeplot(iris['petalLength'], bw=0.5)
+sns.kdeplot(iris['petalWidth'], bw=0.5)
+sns.kdeplot(iris['sepalWidth'], bw=0.5)
+sns.kdeplot(iris['sepalLength'], bw=0.5)
