@@ -13,7 +13,7 @@ import pandas as pd
 import numpy as np
 #import pylab as pl
 import sys
-sys.path.append("C:\\Users\\dgr\\Documents\\Formations\\SCU Python\\NEW\\modules")
+sys.path.append("C:\\Users\\dgr\\Documents\\Formations\\SCU Python\\NEW\\fonctions")
 sys.path
 #import module_lift as mdl
 import os
